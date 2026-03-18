@@ -19,10 +19,12 @@ padding:100px 0;
 /* NAVBAR */
 
 .navbar {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: padding 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
   padding: 12px 0;
   background: #ffffff !important;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Ensure links are horizontal and unstyled */
@@ -75,18 +77,135 @@ padding:100px 0;
   width: auto;
 }
 
+/* Pill effect: shrink the inner container, let the nav stay full-width */
+.navbar .container {
+  transition: all 0.4s ease;
+  border-radius: 0;
+  max-width: 100%;
+}
+
 .navbar.scrolled {
-  margin: 10px auto;
+  padding: 8px 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.navbar.scrolled .container {
   max-width: 1100px;
   border-radius: 60px;
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-  padding: 12px 26px;
+  padding: 8px 26px;
 }
 
 .navbar.scrolled .navbar-brand img {
   height: 30px !important;
+}
+
+/* ── HAMBURGER BUTTON ── */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  gap: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #333;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DROPDOWN MENU ── */
+.mobile-menu {
+  display: none; /* only shown on mobile */
+  position: fixed;
+  top: 65px; /* sits just below the navbar */
+  left: 12px;
+  right: 12px;
+  width: calc(100% - 24px);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  z-index: 999;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+  padding: 0;
+  opacity: 0;
+}
+
+.mobile-menu.open {
+  max-height: 420px;
+  padding: 16px 0 24px;
+  opacity: 1;
+}
+
+.mobile-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Rainbow shine for active/hover links */
+.mobile-link::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 14px 24px;
+  background: linear-gradient(135deg, #ff4d6d, #ffb703, #00f5d4, #00bbf9, #9b5de5);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: shine 5s linear infinite;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.mobile-link.active::after,
+.mobile-link:hover::after {
+  opacity: 1;
+}
+
+.mobile-link.active,
+.mobile-link:hover {
+  color: transparent;
+}
+
+@media (min-width: 992px) {
+  .mobile-menu { display: none !important; }
+}
+
+@media (max-width: 991px) {
+  .mobile-menu { display: flex; }
 }
 
 /* WAVE TRANSITION */
@@ -306,7 +425,6 @@ overflow:hidden;
 .links-carousel-wrapper {
   position: relative;
   overflow: hidden;
-  margin: 0 -15px;
   /* Mascaramento suave nas bordas para o carrosel não cortar "duro" */
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -979,7 +1097,6 @@ overflow:hidden;
 .supporters-carousel-wrapper {
   position: relative;
   overflow: hidden;
-  margin: 0 -15px;
   /* Fade nas bordas para suavizar a entrada/saída dos logos */
   -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);

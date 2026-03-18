@@ -35,45 +35,32 @@
           <img src="assets/gold-logo.png" alt="GOLD Logo" height="35" />
         </a>
 
-        <button
-          class="navbar-toggler"
-          data-bs-toggle="collapse"
-          data-bs-target="#menu"
-        >
-          <span class="navbar-toggler-icon"></span>
+        <!-- Desktop links -->
+        <ul class="navbar-nav ms-auto d-none d-lg-flex">
+          <li class="nav-item"><a class="nav-link" href="#hero" data-text="Início">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sobre" data-text="Sobre">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="#links" data-text="Ações e Projetos">Ações e Projetos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contribua" data-text="Contribua">Contribua</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato" data-text="Contato">Contato</a></li>
+        </ul>
+
+        <!-- Hamburger button (mobile only) -->
+        <button class="hamburger d-lg-none" id="hamburger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-
-        <div class="collapse navbar-collapse" id="menu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#hero" data-text="Início">Início</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#sobre" data-text="Sobre">Sobre</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#links" data-text="Ações e Projetos"
-                >Ações e Projetos</a
-              >
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#contribua" data-text="Contribua"
-                >Contribua</a
-              >
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#contato" data-text="Contato"
-                >Contato</a
-              >
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
+
+    <!-- Mobile dropdown menu (outside nav so it sits below) -->
+    <div class="mobile-menu" id="mobile-menu">
+      <a class="mobile-link" href="#hero" data-text="Início">Início</a>
+      <a class="mobile-link" href="#sobre" data-text="Sobre">Sobre</a>
+      <a class="mobile-link" href="#links" data-text="Ações e Projetos">Ações e Projetos</a>
+      <a class="mobile-link" href="#contribua" data-text="Contribua">Contribua</a>
+      <a class="mobile-link" href="#contato" data-text="Contato">Contato</a>
+    </div>
 
     <!-- HERO -->
 

@@ -3,19 +3,64 @@
 
 const navbar = document.querySelector(".navbar")
 
-window.addEventListener("scroll", () => {
-
-if(window.scrollY > 80){
-
-navbar.classList.add("scrolled")
-
-}else{
-
-navbar.classList.remove("scrolled")
-
+function updateNavbar() {
+  if (window.scrollY > 80) {
+    navbar.classList.add("scrolled")
+  } else {
+    navbar.classList.remove("scrolled")
+  }
 }
 
+// Run on scroll AND immediately on page load
+window.addEventListener("scroll", updateNavbar)
+updateNavbar()
+
+/* MOBILE MENU */
+
+const hamburger = document.getElementById("hamburger")
+const mobileMenu = document.getElementById("mobile-menu")
+const mobileLinks = document.querySelectorAll(".mobile-link")
+
+// Toggle open/close
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("open")
+  mobileMenu.classList.toggle("open")
 })
+
+// Close menu when a link is clicked
+mobileLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    hamburger.classList.remove("open")
+    mobileMenu.classList.remove("open")
+  })
+})
+
+// Active section tracking — works for both desktop and mobile links
+const sections = document.querySelectorAll("section[id]")
+const allNavLinks = document.querySelectorAll(".nav-link, .mobile-link")
+
+function updateActiveLink() {
+  let current = ""
+  const scrollY = window.scrollY + 120
+
+  sections.forEach(section => {
+    if (scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight) {
+      current = section.id
+    }
+  })
+
+  if (window.scrollY < 80) current = "hero"
+
+  allNavLinks.forEach(link => {
+    link.classList.remove("active")
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active")
+    }
+  })
+}
+
+window.addEventListener("scroll", updateActiveLink)
+updateActiveLink()
 
 
 /* FILTER PORTFOLIO */
