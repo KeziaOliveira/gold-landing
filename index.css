@@ -1,3 +1,7 @@
+html, body {
+  overflow-x: hidden;
+}
+
 body{
 font-family: 'Inter', sans-serif;
 scroll-behavior:smooth;
@@ -338,6 +342,21 @@ overflow:hidden;
   }
   .hero-title {
     font-size: 16px;
+  }
+
+  /* Desativa animações pesadas do fundo no mobile */
+  .hero-bg {
+    animation: none !important;
+    filter: none !important;
+    opacity: 0.45;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 77, 109, 0.35), transparent 55%),
+      radial-gradient(circle at 80% 70%, rgba(155, 93, 229, 0.35), transparent 55%);
+  }
+
+  .hero-bg::after {
+    animation: none !important;
+    opacity: 0.3;
   }
 }
 
