@@ -134,22 +134,214 @@ document.querySelectorAll(".reveal-word, .reveal-img").forEach(el => {
   revealObserver.observe(el)
 })
 
-const carousel = document.querySelector(".links-carousel")
 
-document.querySelector(".next").onclick = ()=>{
+/* CAROUSEL — drag to scroll + zone navigation */
+/* CAROUSEL — drag to scroll + zone navigation + pagination */
 
-carousel.scrollBy({
-left:300,
-behavior:"smooth"
-})
+/* 
+   DEFINITIVE CAROUSEL — 100% JS Driven 
+   This replaces CSS animations with a requestAnimationFrame loop for perfect control.
+*/
+;(function () {
+  const wrapper = document.querySelector('.links-carousel-wrapper')
+  const track   = document.querySelector('.proj-carousel-track')
+  if (!wrapper || !track) return
 
-}
+  // Configurações
+  const NUM_CARDS     = 4
+  const IDLE_RESUME   = 3000
+  let scrollSpeed   = window.innerWidth < 768 ? 0.35 : 0.6 // Pixels por frame
+  
+  // Estado
+  let currentX    = 0
+  let targetX     = null
+  let isPaused    = false
+  let isDragging  = false
+  let isJumping   = false
+  let isHovered   = false
+  let startX      = 0
+  let dragStartX  = 0
+  let resumeTimer = null
 
-document.querySelector(".prev").onclick = ()=>{
+  const getCardStep = () => {
+    const card = track.querySelector('.proj-card')
+    if (!card) return 320
+    const gap = parseFloat(window.getComputedStyle(track).gap) || 20
+    return card.offsetWidth + gap
+  }
 
-carousel.scrollBy({
-left:-300,
-behavior:"smooth"
-})
+  // Centraliza o início
+  function initCentering() {
+    const step = getCardStep()
+    const viewportCenter = wrapper.offsetWidth / 2
+    const cardHalf = (step - 20) / 2
+    currentX = viewportCenter - cardHalf
+  }
 
-}
+  /* ─── PAGINAÇÃO ─── */
+  const pagination = document.createElement('div')
+  pagination.className = 'carousel-pagination'
+  const dots = []
+
+  for (let i = 0; i < NUM_CARDS; i++) {
+    const dot = document.createElement('button')
+    dot.className = 'carousel-dot'
+    dot.setAttribute('aria-label', `Ir para slide ${i + 1}`)
+    dot.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      jumpToIndex(i)
+    })
+    pagination.appendChild(dot)
+    dots.push(dot)
+  }
+  wrapper.after(pagination)
+
+  function updateActiveDot(x) {
+    const step = getCardStep()
+    const loopPoint = (track.scrollWidth + 20) / 2
+    const viewportCenter = wrapper.offsetWidth / 2
+    const cardHalf = (step - 20) / 2
+    
+    let norm = ((x % loopPoint) - loopPoint) % loopPoint
+    let index = Math.round(Math.abs(norm - viewportCenter + cardHalf) / step) % NUM_CARDS
+    
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index)
+    })
+  }
+
+  function jumpToIndex(targetIdx) {
+    clearTimeout(resumeTimer)
+    isJumping = true
+    isPaused  = true
+    
+    const step = getCardStep()
+    const viewportCenter = wrapper.offsetWidth / 2
+    const cardHalf = (step - 20) / 2
+    
+    // Calcula o índice real atual baseado na posição
+    const currentIndex = Math.round(Math.abs(currentX - viewportCenter + cardHalf) / step)
+    const currentRealIndex = currentIndex % NUM_CARDS
+    
+    let diff = targetIdx - currentRealIndex
+    if (diff > NUM_CARDS / 2) diff -= NUM_CARDS
+    if (diff < -NUM_CARDS / 2) diff += NUM_CARDS
+    
+    targetX = currentX - (diff * step)
+  }
+
+  /* ─── INTERAÇÃO ─── */
+
+  function handleStart(clientX) {
+    clearTimeout(resumeTimer)
+    isDragging = true
+    isPaused   = true
+    isJumping  = false
+    startX     = clientX
+    dragStartX = currentX
+    wrapper.style.cursor = 'grabbing'
+  }
+
+  function handleMove(clientX) {
+    if (!isDragging) return
+    const delta = clientX - startX
+    currentX = dragStartX + delta
+  }
+
+  function handleEnd() {
+    if (!isDragging) return
+    isDragging = false
+    wrapper.style.cursor = 'grab'
+    if (!isHovered) {
+      resumeTimer = setTimeout(() => { isPaused = false }, IDLE_RESUME)
+    }
+  }
+
+  wrapper.addEventListener('mousedown', e => {
+    if (e.target.closest('.carousel-zone')) return
+    handleStart(e.clientX)
+  })
+  window.addEventListener('mousemove', e => handleMove(e.clientX))
+  window.addEventListener('mouseup', handleEnd)
+
+  wrapper.addEventListener('touchstart', e => handleStart(e.touches[0].clientX), { passive: true })
+  wrapper.addEventListener('touchmove', e => handleMove(e.touches[0].clientX), { passive: true })
+  wrapper.addEventListener('touchend', handleEnd)
+
+  wrapper.addEventListener('mouseenter', () => { isHovered = true; isPaused = true; })
+  wrapper.addEventListener('mouseleave', () => { 
+    isHovered = false; 
+    if (!isDragging) resumeTimer = setTimeout(() => { isPaused = false }, 1000)
+  })
+
+  // Zonas laterais
+  function shiftBy(dir) {
+    clearTimeout(resumeTimer)
+    isJumping = true
+    isPaused  = true
+    targetX   = currentX + dir * getCardStep()
+  }
+
+  const zonePrev = document.createElement('div')
+  zonePrev.className = 'carousel-zone carousel-zone--prev'
+  zonePrev.addEventListener('click', (e) => { e.stopPropagation(); shiftBy(1); })
+  
+  const zoneNext = document.createElement('div')
+  zoneNext.className = 'carousel-zone carousel-zone--next'
+  zoneNext.addEventListener('click', (e) => { e.stopPropagation(); shiftBy(-1); })
+
+  wrapper.appendChild(zonePrev)
+  wrapper.appendChild(zoneNext)
+
+  /* ─── RENDER LOOP ─── */
+  function render() {
+    const loopPoint = (track.scrollWidth + 20) / 2
+
+    // 1. Auto-scroll
+    if (!isPaused && !isDragging && !isJumping) {
+      currentX -= scrollSpeed
+    }
+
+    // 2. Jump/Shift interpolation
+    if (isJumping && targetX !== null) {
+      const dist = targetX - currentX
+      currentX += dist * 0.12 // Ease out
+      if (Math.abs(dist) < 0.5) {
+        currentX = targetX
+        isJumping = false
+        targetX = null
+        if (!isHovered) resumeTimer = setTimeout(() => { isPaused = false }, IDLE_RESUME)
+      }
+    }
+
+    // 3. Infinite Wrap — Sincroniza o targetX para evitar giros infinitos
+    if (currentX > 0) {
+      currentX -= loopPoint
+      if (targetX !== null) targetX -= loopPoint
+    }
+    if (currentX < -loopPoint) {
+      currentX += loopPoint
+      if (targetX !== null) targetX += loopPoint
+    }
+
+    // 4. Apply
+    track.style.transform = `translateX(${currentX}px)`
+    updateActiveDot(currentX)
+
+    requestAnimationFrame(render)
+  }
+
+  // Ajusta ao redimensionar
+  window.addEventListener('resize', () => {
+    scrollSpeed = window.innerWidth < 768 ? 0.35 : 0.6
+  })
+
+  initCentering()
+  render()
+})()
+
+
+
+
+

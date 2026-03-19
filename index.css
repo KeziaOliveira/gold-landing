@@ -444,10 +444,82 @@ overflow:hidden;
 .links-carousel-wrapper {
   position: relative;
   overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
   /* Mascaramento suave nas bordas para o carrosel não cortar "duro" */
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
+
+.links-carousel-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Zonas de navegação lateral */
+.carousel-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-zone--prev {
+  left: 0;
+}
+
+.carousel-zone--next {
+  right: 0;
+}
+
+/* Zonas invisíveis, apenas para funcionalidade de clique */
+.carousel-zone:hover {
+  opacity: 0;
+}
+
+/* PAGINAÇÃO DO CARROSSEL */
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding-bottom: 20px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.carousel-dot:hover {
+  background: rgba(0, 0, 0, 0.3);
+  transform: scale(1.2);
+}
+
+.carousel-dot.active {
+  width: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff4d6d, #ffb703, #00f5d4, #00bbf9, #9b5de5);
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+  box-shadow: 0 4px 12px rgba(255, 183, 3, 0.3);
+}
+
+
 
 /* Project Cards Grid / Track */
 .proj-carousel-track {
@@ -456,13 +528,16 @@ overflow:hidden;
   width: max-content;
   padding: 20px 15px;
   /* Animação contínua e infinita */
-  animation: scrollTrack 35s linear infinite;
+  /* Animação via JavaScript para controle total */
   will-change: transform;
 }
 
+/* A pausa agora é tratada via JavaScript para evitar conflitos de sincronização */
+/*
 .links-carousel-wrapper:hover .proj-carousel-track {
   animation-play-state: paused;
 }
+*/
 
 @keyframes scrollTrack {
   0% { transform: translateX(0); }
@@ -1233,3 +1308,12 @@ color:white;
 cursor:pointer;
 
 }
+
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
