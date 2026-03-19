@@ -1236,25 +1236,63 @@ overflow:hidden;
   mask-position: center;
 }
 
-.social-btn:hover .social-icon {
-  transform: scale(1.1);
+/* Mobile specific vibrant styles */
+@media (max-width: 768px) {
+  .socials {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px !important;
+    padding: 0 10px;
+  }
+
+  .social-btn {
+    justify-content: center;
+    padding: 12px 10px;
+    border: none;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    font-size: 0.8rem;
+  }
+
+  /* Permanent colors on mobile */
+  .social-btn[title="WhatsApp"] { color: #25D366; background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.2); }
+  .social-btn[title="WhatsApp"] .social-icon { background-color: #25D366; }
+
+  .social-btn[title="Email"] { color: #ea4335; background: rgba(234, 67, 53, 0.08); border: 1px solid rgba(234, 67, 53, 0.2); }
+  .social-btn[title="Email"] .social-icon { background-color: #ea4335; }
+
+  .social-btn[title="Instagram"] { color: #E1306C; background: rgba(225, 48, 108, 0.08); border: 1px solid rgba(225, 48, 108, 0.2); }
+  .social-btn[title="Instagram"] .social-icon { background-color: #E1306C; }
+
+  .social-btn[title="Facebook"] { color: #1877F2; background: rgba(24, 119, 242, 0.08); border: 1px solid rgba(24, 119, 242, 0.2); }
+  .social-btn[title="Facebook"] .social-icon { background-color: #1877F2; }
+
+  .social-btn[title="LinkedIn"] { color: #0A66C2; background: rgba(10, 102, 194, 0.08); border: 1px solid rgba(10, 102, 194, 0.2); }
+  .social-btn[title="LinkedIn"] .social-icon { background-color: #0A66C2; }
+
+  .social-btn[title="YouTube"] { color: #FF0000; background: rgba(255, 0, 0, 0.08); border: 1px solid rgba(255, 0, 0, 0.2); }
+  .social-btn[title="YouTube"] .social-icon { background-color: #FF0000; }
 }
 
-.social-btn[title="WhatsApp"]:hover .social-icon { background-color: #25D366; }
-.social-btn[title="Email"]:hover .social-icon { background-color: #111; }
-.social-btn[title="Instagram"]:hover .social-icon { background-color: #E1306C; }
-.social-btn[title="Facebook"]:hover .social-icon { background-color: #1877F2; }
-.social-btn[title="LinkedIn"]:hover .social-icon { background-color: #0A66C2; }
-.social-btn[title="YouTube"]:hover .social-icon { background-color: #FF0000; }
+@media (hover: hover) {
+  .social-btn:hover .social-icon {
+    transform: scale(1.1);
+  }
 
-.social-btn[title="Instagram"]:hover { color: #E1306C; border-color: #E1306C; }
-.social-btn[title="Facebook"]:hover  { color: #1877F2; border-color: #1877F2; }
-.social-btn[title="LinkedIn"]:hover  { color: #0A66C2; border-color: #0A66C2; }
-.social-btn[title="YouTube"]:hover   { color: #FF0000; border-color: #FF0000; }
-.social-btn[title="WhatsApp"]:hover   { color: #25D366; border-color: #25D366; }
-.social-btn[title="Email"]:hover   { color: #111; border-color: #111; }
-.social-btn[title="WhatsApp"]:hover  { color: #25D366; border-color: #25D366; }
-.social-btn[title="Email"]:hover     { color: #ea4335; border-color: #ea4335; }
+  .social-btn[title="WhatsApp"]:hover .social-icon { background-color: #25D366; }
+  .social-btn[title="Email"]:hover .social-icon { background-color: #111; }
+  .social-btn[title="Instagram"]:hover .social-icon { background-color: #E1306C; }
+  .social-btn[title="Facebook"]:hover .social-icon { background-color: #1877F2; }
+  .social-btn[title="LinkedIn"]:hover .social-icon { background-color: #0A66C2; }
+  .social-btn[title="YouTube"]:hover .social-icon { background-color: #FF0000; }
+
+  .social-btn[title="Instagram"]:hover { color: #E1306C; border-color: #E1306C; }
+  .social-btn[title="Facebook"]:hover  { color: #1877F2; border-color: #1877F2; }
+  .social-btn[title="LinkedIn"]:hover  { color: #0A66C2; border-color: #0A66C2; }
+  .social-btn[title="YouTube"]:hover   { color: #FF0000; border-color: #FF0000; }
+  .social-btn[title="WhatsApp"]:hover   { color: #25D366; border-color: #25D366; }
+  .social-btn[title="Email"]:hover   { color: #ea4335; border-color: #ea4335; }
+}
 
 
 
