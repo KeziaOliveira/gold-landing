@@ -342,6 +342,89 @@ document.querySelectorAll(".reveal-word, .reveal-img").forEach(el => {
 })()
 
 
+/* 
+   CONTRIBUA FOCUS (v3) — Definitive Mobile Scroll Effect
+*/
+;(function () {
+  const cards = document.querySelectorAll('.contribua-card')
+  const section = document.querySelector('.contribua-section')
+  if (!cards.length || !section) return
 
+  function updateFocus() {
+    if (window.innerWidth >= 992) return
+
+    const viewportCenter = window.innerHeight * 0.5
+    let closestCard = null
+    let minDistance = Infinity
+
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect()
+      const cardCenter = rect.top + rect.height / 2
+      const distance = Math.abs(viewportCenter - cardCenter)
+
+      // Threshold estrito para considerar "no centro" (150px)
+      if (distance < minDistance && distance < 150) {
+        minDistance = distance
+        closestCard = card
+      }
+    })
+
+    cards.forEach(card => {
+      if (card === closestCard) {
+        card.classList.add('in-focus')
+      } else {
+        card.classList.remove('in-focus')
+        card.classList.remove('is-flipped')
+      }
+    })
+  }
+
+  // Toggle do PIX — Simplificado e direto
+  section.addEventListener('click', (e) => {
+    if (window.innerWidth >= 992) return
+    
+    // Procura se o clique foi no card do PIX ou dentro dele
+    const pixCard = e.target.closest('.card-pix')
+    if (pixCard) {
+      pixCard.classList.toggle('is-flipped')
+    }
+  })
+
+  window.addEventListener('scroll', updateFocus, { passive: true })
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 992) {
+      cards.forEach(c => {
+        c.classList.remove('in-focus')
+        c.classList.remove('is-flipped')
+      })
+    }
+    updateFocus()
+  })
+
+  // Lógica de Cópia do PIX
+  const btnCopy = section.querySelector('.btn-copy-pix')
+  const keyText = section.querySelector('.pix-key-text')
+
+  if (btnCopy && keyText) {
+    btnCopy.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation() // Não deixa o card "desvirar" ao clicar em copiar
+
+      const text = keyText.innerText.replace(/\s/g, '').replace(/-/g, '') // Limpa formatação
+      navigator.clipboard.writeText(text).then(() => {
+        btnCopy.classList.add('copied')
+        
+        // Feedback visual temporário
+        setTimeout(() => {
+          btnCopy.classList.remove('copied')
+        }, 2000)
+      })
+    })
+  }
+
+  // Inicializa imediatamente e após um breve delay (para layouts dinâmicos)
+  updateFocus()
+  setTimeout(updateFocus, 100)
+})()
 
 

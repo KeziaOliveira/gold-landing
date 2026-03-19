@@ -848,10 +848,33 @@ overflow:hidden;
   z-index: 1;
 }
 
-.contribua-card:hover {
+@media (hover: hover) {
+  .contribua-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    color: #333;
+  }
+}
+
+.contribua-card.in-focus {
   transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   color: #333;
+}
+
+/* Redução dos outros cards quando um está em foco/hover */
+@media (hover: hover) {
+  .contribua-section:has(.contribua-card:hover) .contribua-card:not(:hover) {
+    opacity: 0.5;
+    filter: grayscale(0.8);
+    transform: scale(0.95);
+  }
+}
+
+.contribua-section:has(.contribua-card.in-focus) .contribua-card:not(.in-focus) {
+  opacity: 0.5;
+  filter: grayscale(0.8);
+  transform: scale(0.95);
 }
 
 .contribua-icon {
@@ -916,30 +939,70 @@ overflow:hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card-pix:hover .pix-hover-content {
+@media (hover: hover) {
+  .card-pix:hover .pix-hover-content {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.card-pix.is-flipped .pix-hover-content {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-.pix-info {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.qr-wrapper img {
-  border-radius: 12px;
-  border: 1px solid #eee;
-}
-
-.pix-key-box {
+.pix-key-container {
   background-color: #f8f9fa !important;
   border-color: #eee !important;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   width: 100%;
+}
+
+.btn-copy-pix {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.03);
+  pointer-events: auto; /* IMPORTANTE: permite o clique */
+}
+
+.btn-copy-pix:hover {
+  background: rgba(255, 140, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.btn-copy-pix img {
+  width: 18px;
+  height: 18px;
+  filter: invert(30%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(85%) contrast(85%);
+  transition: all 0.3s ease;
+}
+
+.btn-copy-pix:hover img {
+  filter: invert(53%) sepia(100%) saturate(600%) hue-rotate(10deg) brightness(95%) contrast(105%); /* Cor Pix/Laranja */
+}
+
+.btn-copy-pix.copied {
+  background: #25D366;
+  animation: pulse-copy 0.5s ease;
+}
+
+.btn-copy-pix.copied img {
+  filter: brightness(0) invert(1);
+}
+
+@keyframes pulse-copy {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 /* Colored Glow Effect on Hover */
@@ -958,46 +1021,61 @@ overflow:hidden;
 .card-whatsapp .contribua-glow {
   background: radial-gradient(circle at top right, rgba(37, 211, 102, 0.15), transparent 70%);
 }
-.card-whatsapp:hover .contribua-glow {
-  opacity: 1;
+@media (hover: hover) {
+  .card-whatsapp:hover .contribua-glow { opacity: 1; }
+  .card-whatsapp:hover .contribua-icon {
+    background: #25D366;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+  }
+  .card-whatsapp:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
-.card-whatsapp:hover .contribua-icon {
+
+.card-whatsapp.in-focus .contribua-glow { opacity: 1; }
+.card-whatsapp.in-focus .contribua-icon {
   background: #25D366;
   box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
 }
-.card-whatsapp:hover .contribua-icon img {
-  filter: brightness(0) invert(1);
-}
+.card-whatsapp.in-focus .contribua-icon img { filter: brightness(0) invert(1); }
 
 /* PIX Doação */
 .card-pix .contribua-glow {
   background: radial-gradient(circle at top right, rgba(255, 136, 0, 0.15), transparent 70%);
 }
-.card-pix:hover .contribua-glow {
-  opacity: 1;
+@media (hover: hover) {
+  .card-pix:hover .contribua-glow { opacity: 1; }
+  .card-pix:hover .contribua-icon {
+    background: #ff8c00;
+    box-shadow: 0 10px 20px rgba(255, 136, 0, 0.3);
+  }
+  .card-pix:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
-.card-pix:hover .contribua-icon {
+
+.card-pix.in-focus .contribua-glow { opacity: 1; }
+.card-pix.in-focus .contribua-icon {
   background: #ff8c00;
   box-shadow: 0 10px 20px rgba(255, 136, 0, 0.3);
 }
-.card-pix:hover .contribua-icon img {
-  filter: brightness(0) invert(1);
-}
+.card-pix.in-focus .contribua-icon img { filter: brightness(0) invert(1); }
 
 /* Doação / Casa de Acolhimento */
 .card-donate .contribua-glow {
   background: radial-gradient(circle at top right, rgba(155, 93, 229, 0.15), transparent 70%);
 }
-.card-donate:hover .contribua-glow {
-  opacity: 1;
+@media (hover: hover) {
+  .card-donate:hover .contribua-glow { opacity: 1; }
+  .card-donate:hover .contribua-icon {
+    background: #9b5de5;
+    box-shadow: 0 10px 20px rgba(155, 93, 229, 0.3);
+  }
+  .card-donate:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
-.card-donate:hover .contribua-icon {
+
+.card-donate.in-focus .contribua-glow { opacity: 1; }
+.card-donate.in-focus .contribua-icon {
   background: #9b5de5;
   box-shadow: 0 10px 20px rgba(155, 93, 229, 0.3);
 }
-.card-donate:hover .contribua-icon img {
-  filter: brightness(0) invert(1);
-}
+.card-donate.in-focus .contribua-icon img { filter: brightness(0) invert(1); }
 
 /* CONTATO */
 
