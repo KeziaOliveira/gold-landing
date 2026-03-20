@@ -343,6 +343,60 @@ document.querySelectorAll(".reveal-word, .reveal-img").forEach(el => {
 
 
 /* 
+   CONTACT FORM & SUCCESS MODAL
+*/
+;(function () {
+  const contactForm = document.getElementById('contact-form')
+  const successModal = document.getElementById('success-modal')
+  const closeModalBtns = document.querySelectorAll('#close-modal, #modal-confirm-btn')
+  
+  if (!contactForm || !successModal) return
+
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    // 1. Get data
+    const name = document.getElementById('name').value
+    const email = document.getElementById('email').value
+    const subject = document.getElementById('subject').value
+    const message = document.getElementById('message').value
+
+    // 2. Format mailto
+    const recipient = 'goldlgbt@gmail.com'
+    const emailSubject = encodeURIComponent(`Site GOLD: ${subject}`)
+    const emailBody = encodeURIComponent(
+      `Nome: ${name}\n` +
+      `E-mail de contato: ${email}\n\n` +
+      `Mensagem:\n${message}`
+    )
+
+    // 3. Open mail client
+    window.location.href = `mailto:${recipient}?subject=${emailSubject}&body=${emailBody}`
+
+    // 4. Show success modal
+    successModal.classList.add('active')
+
+    // 5. Clear form (optional but recommended)
+    contactForm.reset()
+  })
+
+  // Close modal logic
+  closeModalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      successModal.classList.remove('active')
+    })
+  })
+
+  // Close modal on backdrop click
+  successModal.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal-backdrop-blur')) {
+      successModal.classList.remove('active')
+    }
+  })
+})()
+
+
+/* 
    CONTRIBUA FOCUS (v3) — Definitive Mobile Scroll Effect
 */
 ;(function () {
