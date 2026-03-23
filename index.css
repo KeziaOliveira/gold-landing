@@ -1052,32 +1052,32 @@ overflow:hidden;
 }
 
 @keyframes glowPulse {
-  0% { transform: scale(1) translate(0, 0); }
-  50% { transform: scale(1.1) translate(-5%, 5%); }
-  100% { transform: scale(1) translate(0, 0); }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 /* WhatsApp / Voluntariado */
 .card-whatsapp .contribua-glow {
-  background: radial-gradient(circle at top right, rgba(37, 211, 102, 0.25), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(37, 211, 102, 0.15), transparent 70%);
 }
 @media (hover: hover) {
   .card-whatsapp:hover .contribua-glow { 
-    opacity: 1; 
+    opacity: 0.6; /* Lowered opacity */
     animation: glowPulse 8s ease infinite;
   }
   .card-whatsapp:hover {
-    box-shadow: 0 25px 50px -12px rgba(37, 211, 102, 0.25);
+    box-shadow: 0 20px 40px -10px rgba(37, 211, 102, 0.15); /* Subtler colored shadow */
   }
   .card-whatsapp:hover .contribua-icon {
     background: #25D366;
-    box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
-    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+    transform: scale(1.08) rotate(3deg); /* Subtler pop */
   }
   .card-whatsapp:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
 
-.card-whatsapp.in-focus .contribua-glow { opacity: 1; }
+.card-whatsapp.in-focus .contribua-glow { opacity: 0.6; }
 .card-whatsapp.in-focus .contribua-icon {
   background: #25D366;
   box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
@@ -1086,25 +1086,25 @@ overflow:hidden;
 
 /* PIX Doação */
 .card-pix .contribua-glow {
-  background: radial-gradient(circle at top right, rgba(255, 136, 0, 0.25), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(255, 136, 0, 0.15), transparent 70%);
 }
 @media (hover: hover) {
   .card-pix:hover .contribua-glow { 
-    opacity: 1; 
+    opacity: 0.6; 
     animation: glowPulse 8s ease infinite;
   }
   .card-pix:hover {
-    box-shadow: 0 25px 50px -12px rgba(255, 136, 0, 0.25);
+    box-shadow: 0 20px 40px -10px rgba(255, 136, 0, 0.15);
   }
   .card-pix:hover .contribua-icon {
     background: #ff8c00;
-    box-shadow: 0 15px 30px rgba(255, 136, 0, 0.4);
-    transform: scale(1.15) rotate(-5deg);
+    box-shadow: 0 10px 20px rgba(255, 136, 0, 0.3);
+    transform: scale(1.08) rotate(-3deg);
   }
   .card-pix:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
 
-.card-pix.in-focus .contribua-glow { opacity: 1; }
+.card-pix.in-focus .contribua-glow { opacity: 0.6; }
 .card-pix.in-focus .contribua-icon {
   background: #ff8c00;
   box-shadow: 0 10px 20px rgba(255, 136, 0, 0.3);
@@ -1113,25 +1113,25 @@ overflow:hidden;
 
 /* Doação / Casa de Acolhimento */
 .card-donate .contribua-glow {
-  background: radial-gradient(circle at top right, rgba(155, 93, 229, 0.25), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(155, 93, 229, 0.15), transparent 70%);
 }
 @media (hover: hover) {
   .card-donate:hover .contribua-glow { 
-    opacity: 1; 
+    opacity: 0.6; 
     animation: glowPulse 8s ease infinite;
   }
   .card-donate:hover {
-    box-shadow: 0 25px 50px -12px rgba(155, 93, 229, 0.25);
+    box-shadow: 0 20px 40px -10px rgba(155, 93, 229, 0.15);
   }
   .card-donate:hover .contribua-icon {
     background: #9b5de5;
-    box-shadow: 0 15px 30px rgba(155, 93, 229, 0.4);
-    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 10px 20px rgba(155, 93, 229, 0.3);
+    transform: scale(1.08) rotate(3deg);
   }
   .card-donate:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
 
-.card-donate.in-focus .contribua-glow { opacity: 1; }
+.card-donate.in-focus .contribua-glow { opacity: 0.6; }
 .card-donate.in-focus .contribua-icon {
   background: #9b5de5;
   box-shadow: 0 10px 20px rgba(155, 93, 229, 0.3);
@@ -1208,24 +1208,19 @@ overflow:hidden;
   background: #fff;
   padding: 40px; 
   border-radius: 24px;
-  /* Multi-layered "professional" shadow with subtle brand color hints */
+  /* Refined multi-layered shadow - cleaner and lighter */
   box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.05), 
-    0 10px 20px -2px rgba(0, 0, 0, 0.03), 
-    0 30px 60px -10px rgba(0, 0, 0, 0.05),
-    0 40px 100px -20px rgba(155, 93, 229, 0.05), /* Subtle Purple hint */
-    0 40px 100px -30px rgba(255, 77, 109, 0.05); /* Subtle Pink hint */
-  border: 1px solid rgba(0,0,0,0.08); 
+    0 10px 40px -10px rgba(0, 0, 0, 0.05),
+    0 20px 80px -20px rgba(0, 0, 0, 0.03); 
+  border: 1px solid rgba(0,0,0,0.06); 
   position: relative;
   z-index: 1;
 }
 
 .contact-form-wrapper:hover {
   box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.08), 
-    0 25px 50px -12px rgba(0, 0, 0, 0.08),
-    0 60px 100px -20px rgba(155, 93, 229, 0.08),
-    0 60px 100px -30px rgba(255, 77, 109, 0.08);
+    0 20px 50px -10px rgba(0, 0, 0, 0.07), 
+    0 40px 100px -20px rgba(0, 0, 0, 0.05);
 }
 
 .contact-form-wrapper .form-title {
@@ -1422,17 +1417,17 @@ overflow:hidden;
 
 @keyframes odsFloat {
   0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-15px) rotate(2deg); }
+  50% { transform: translateY(-8px) rotate(1deg); } /* Smaller movement */
 }
 
 .ods-item:hover {
-  transform: scale(1.15) translateY(-5px);
+  transform: scale(1.08) translateY(-3px); /* Smaller scale */
   z-index: 10;
 }
 
 .ods-item:hover .ods-img {
   animation-play-state: paused;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12); /* Lighter shadow */
 }
 
 /* Rainbow glow on hover */
@@ -1451,7 +1446,7 @@ overflow:hidden;
 }
 
 .ods-item:hover::after {
-  opacity: 0.4;
+  opacity: 0.2; /* Subtler glow */
 }
 
 .ods-text {
