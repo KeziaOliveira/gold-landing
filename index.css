@@ -881,8 +881,7 @@ overflow:hidden;
 
 @media (hover: hover) {
   .contribua-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    transform: translateY(-12px) scale(1.02);
     color: #333;
   }
 }
@@ -917,7 +916,7 @@ overflow:hidden;
   border-radius: 16px;
   background: #f8f9fa;
   margin-bottom: 24px;
-  transition: all 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 2;
   position: relative;
 }
@@ -970,6 +969,8 @@ overflow:hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Hover effect removed to rely solely on click-to-flip as requested */
+/*
 @media (hover: hover) {
   .card-pix:hover .pix-hover-content {
     opacity: 1;
@@ -977,6 +978,7 @@ overflow:hidden;
     pointer-events: auto;
   }
 }
+*/
 
 .card-pix.is-flipped .pix-hover-content {
   opacity: 1;
@@ -1046,17 +1048,31 @@ overflow:hidden;
   opacity: 0;
   transition: opacity 0.5s ease;
   z-index: 0;
+  background-size: 200% 200%;
+}
+
+@keyframes glowPulse {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.1) translate(-5%, 5%); }
+  100% { transform: scale(1) translate(0, 0); }
 }
 
 /* WhatsApp / Voluntariado */
 .card-whatsapp .contribua-glow {
-  background: radial-gradient(circle at top right, rgba(37, 211, 102, 0.15), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(37, 211, 102, 0.25), transparent 70%);
 }
 @media (hover: hover) {
-  .card-whatsapp:hover .contribua-glow { opacity: 1; }
+  .card-whatsapp:hover .contribua-glow { 
+    opacity: 1; 
+    animation: glowPulse 8s ease infinite;
+  }
+  .card-whatsapp:hover {
+    box-shadow: 0 25px 50px -12px rgba(37, 211, 102, 0.25);
+  }
   .card-whatsapp:hover .contribua-icon {
     background: #25D366;
-    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+    transform: scale(1.15) rotate(5deg);
   }
   .card-whatsapp:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
@@ -1070,13 +1086,20 @@ overflow:hidden;
 
 /* PIX Doação */
 .card-pix .contribua-glow {
-  background: radial-gradient(circle at top right, rgba(255, 136, 0, 0.15), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(255, 136, 0, 0.25), transparent 70%);
 }
 @media (hover: hover) {
-  .card-pix:hover .contribua-glow { opacity: 1; }
+  .card-pix:hover .contribua-glow { 
+    opacity: 1; 
+    animation: glowPulse 8s ease infinite;
+  }
+  .card-pix:hover {
+    box-shadow: 0 25px 50px -12px rgba(255, 136, 0, 0.25);
+  }
   .card-pix:hover .contribua-icon {
     background: #ff8c00;
-    box-shadow: 0 10px 20px rgba(255, 136, 0, 0.3);
+    box-shadow: 0 15px 30px rgba(255, 136, 0, 0.4);
+    transform: scale(1.15) rotate(-5deg);
   }
   .card-pix:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
@@ -1090,13 +1113,20 @@ overflow:hidden;
 
 /* Doação / Casa de Acolhimento */
 .card-donate .contribua-glow {
-  background: radial-gradient(circle at top right, rgba(155, 93, 229, 0.15), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(155, 93, 229, 0.25), transparent 70%);
 }
 @media (hover: hover) {
-  .card-donate:hover .contribua-glow { opacity: 1; }
+  .card-donate:hover .contribua-glow { 
+    opacity: 1; 
+    animation: glowPulse 8s ease infinite;
+  }
+  .card-donate:hover {
+    box-shadow: 0 25px 50px -12px rgba(155, 93, 229, 0.25);
+  }
   .card-donate:hover .contribua-icon {
     background: #9b5de5;
-    box-shadow: 0 10px 20px rgba(155, 93, 229, 0.3);
+    box-shadow: 0 15px 30px rgba(155, 93, 229, 0.4);
+    transform: scale(1.15) rotate(5deg);
   }
   .card-donate:hover .contribua-icon img { filter: brightness(0) invert(1); }
 }
@@ -1111,7 +1141,9 @@ overflow:hidden;
 /* CONTATO */
 
 .contato-section {
-  background: #fbfbfb;
+  background: radial-gradient(circle at 10% 20%, rgba(255, 77, 109, 0.03) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(155, 93, 229, 0.03) 0%, transparent 40%),
+              #f9f9f9;
   padding: 100px 0;
 }
 
@@ -1174,10 +1206,26 @@ overflow:hidden;
 /* Formulário de Contato */
 .contact-form-wrapper {
   background: #fff;
-  padding: 40px;
+  padding: 40px; 
   border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-  border: 1px solid rgba(0,0,0,0.05);
+  /* Multi-layered "professional" shadow with subtle brand color hints */
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+    0 10px 20px -2px rgba(0, 0, 0, 0.03), 
+    0 30px 60px -10px rgba(0, 0, 0, 0.05),
+    0 40px 100px -20px rgba(155, 93, 229, 0.05), /* Subtle Purple hint */
+    0 40px 100px -30px rgba(255, 77, 109, 0.05); /* Subtle Pink hint */
+  border: 1px solid rgba(0,0,0,0.08); 
+  position: relative;
+  z-index: 1;
+}
+
+.contact-form-wrapper:hover {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.08), 
+    0 25px 50px -12px rgba(0, 0, 0, 0.08),
+    0 60px 100px -20px rgba(155, 93, 229, 0.08),
+    0 60px 100px -30px rgba(255, 77, 109, 0.08);
 }
 
 .contact-form-wrapper .form-title {

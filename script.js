@@ -435,8 +435,6 @@ document.querySelectorAll(".reveal-word, .reveal-img").forEach(el => {
 
   // Toggle do PIX — Simplificado e direto
   section.addEventListener('click', (e) => {
-    if (window.innerWidth >= 992) return
-    
     // Procura se o clique foi no card do PIX ou dentro dele
     const pixCard = e.target.closest('.card-pix')
     if (pixCard) {
@@ -449,7 +447,6 @@ document.querySelectorAll(".reveal-word, .reveal-img").forEach(el => {
     if (window.innerWidth >= 992) {
       cards.forEach(c => {
         c.classList.remove('in-focus')
-        c.classList.remove('is-flipped')
       })
     }
     updateFocus()
